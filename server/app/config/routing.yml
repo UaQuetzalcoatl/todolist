@@ -1,0 +1,7 @@
+points:
+    resource: Fp\AppBundle\Controller\PointController
+    type:     rest
+
+NelmioApiDocBundle:
+  resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+  prefix:   /api/doc
