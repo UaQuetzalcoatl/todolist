@@ -14,11 +14,10 @@
         controller: 'PointsController',
         controllerAs: 'pointsCtrl',
         resolve: {
-          Points: function (Restangular) {
-            return Restangular.all('points').getList();
+          Points: function (PointModel) {
+            return PointModel.getList();
           }
         }
       });
   }
-
 })();
