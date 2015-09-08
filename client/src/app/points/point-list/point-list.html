@@ -1,0 +1,24 @@
+<md-content>
+  <md-list ng-if="pointsCtrl.points.length">
+    <md-list-item class="md-3-line" ng-repeat="point in pointsCtrl.points">
+      <div class="md-list-item-text">
+        <h3>{{point.name}}</h3>
+        <h4>{{point.due_date}}</h4>
+        <p>{{point.id}}</p>
+      </div>
+
+      <section layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+        <md-button class="md-raised md-primary" ng-click="pointsCtrl.edit(point)">Edit</md-button>
+        <md-button class="md-raised md-warn" ng-click="pointsCtrl.delete(point)">Delete</md-button>
+      </section>
+    </md-list-item>
+  </md-list>
+  <h2 ng-if="!pointsCtrl.points.length">
+    No items found
+  </h2>
+</md-content>
+
+<section layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+  <md-button class="md-raised md-primary">Add new Item</md-button>
+</section>
+

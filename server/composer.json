@@ -27,7 +27,8 @@
         "hautelook/templated-uri-bundle": "~2.0",
         "willdurand/rest-extra-bundle": "~1.0",
         "doctrine/mongodb-odm": "^1.0@dev",
-        "doctrine/mongodb-odm-bundle": "^3.0@dev"  
+        "doctrine/mongodb-odm-bundle": "^3.0@dev",
+        "nelmio/cors-bundle": "^1.4@dev"  
     },
     "conflict": {
         "symfony/routing": "2.4.1"

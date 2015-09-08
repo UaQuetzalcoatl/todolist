@@ -2,19 +2,19 @@
   'use strict';
 
   angular
-    .module('client')
-    .config(config);
+    .module('app')
+    .config(config)
+    .config(restangularConfig);
 
   /** @ngInject */
-  function config($logProvider, toastr) {
+  function config($logProvider) {
     // Enable log
     $logProvider.debugEnabled(true);
-
-    // Set options third-party lib
-    toastr.options.timeOut = 3000;
-    toastr.options.positionClass = 'toast-top-right';
-    toastr.options.preventDuplicates = true;
-    toastr.options.progressBar = true;
   }
 
+  /** @ngInject */
+  function restangularConfig(RestangularProvider) {
+    RestangularProvider.setBaseUrl('http://127.0.0.1:8000/app_dev.php/');
+    RestangularProvider.setRequestSuffix('.json');
+  }
 })();
