@@ -38,6 +38,15 @@ class Point
     }
 
     /**
+     *
+     * @return \Fp\AppBundle\Document\Point
+     */
+    public function setId($id)
+    {
+        return $this;
+    }
+
+    /**
      * Set name
      *
      * @param string $name

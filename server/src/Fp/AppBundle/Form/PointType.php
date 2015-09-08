@@ -22,6 +22,7 @@ class PointType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', 'hidden')
             ->add('name', 'text')
             ->add('dueDate', 'date', ['widget' => 'single_text'])
             ->add('save', 'submit', ['label' => 'Create New point']);
@@ -47,6 +48,6 @@ class PointType extends AbstractType
      */
     public function getName()
     {
-        return 'point';
+        return 'points';
     }
 }

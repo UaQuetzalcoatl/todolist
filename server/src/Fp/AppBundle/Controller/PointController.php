@@ -79,18 +79,81 @@ class PointController extends FOSRestController
      */
     public function postPointsAction(Request $request)
     {
-        $pointDocument = new Point;
-        $form = $this->createForm(new PointType(), $pointDocument);
+        $point = new Point;
+        $form = $this->createForm(new PointType(), $point);
 
         $form->submit($request);
         if ($form->isValid()) {
             $dm = $this->get('doctrine_mongodb')->getManager();
-            $dm->persist($pointDocument);
+            $dm->persist($point);
             $dm->flush();
 
-            return $this->routeRedirectView('get_point', ['id' => $pointDocument->getId()]);
+            return new View($point, Codes::HTTP_CREATED);
+            /**
+             * causes error when using Restangular
+             */
+//            return $this->routeRedirectView('get_point', ['id' => $point->getId()]);
         }
 
         return ['form' => $form];
+    }
+
+    /**
+     * Updates point.
+     *
+     * @param Request $request
+     * @param string $id
+     *
+     * @return array|RouteRedirectView
+     */
+    public function putPointsAction(Request $request, $id)
+    {
+        $point = $this->get('doctrine_mongodb')
+            ->getRepository('FpAppBundle:Point')
+            ->find($id);
+
+        if (!$point) {
+            throw $this->createNotFoundException('No point found for id '.$id);
+        }
+
+        $form = $this->createForm(new PointType(), $point);
+
+        $form->submit($request);
+        if ($form->isValid()) {
+            $dm = $this->get('doctrine_mongodb')->getManager();
+            $dm->persist($point);
+            $dm->flush();
+
+            return new View($point);
+//            return $this->routeRedirectView('get_point', ['id' => $point->getId()], Codes::HTTP_NO_CONTENT);
+        }
+
+        return ['form' => $form];
+    }
+
+    /**
+     * Removes a point.
+     *
+     *
+     * @param Request $request the request object
+     * @param int     $id      the note id
+     *
+     * @return RouteRedirectView
+     */
+    public function deletePointsAction($id)
+    {
+        $point = $this->get('doctrine_mongodb')
+            ->getRepository('FpAppBundle:Point')
+            ->find($id);
+
+        if (!$point) {
+            throw $this->createNotFoundException('No point found for id '.$id);
+        }
+
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm->remove($point);
+        $dm->flush();
+
+        return $this->routeRedirectView('get_points', array(), Codes::HTTP_NO_CONTENT);
     }
 }
