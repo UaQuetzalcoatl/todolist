@@ -1,41 +1,41 @@
-<md-dialog aria-label="Mango (Fruit)">
-  <form>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Point</h2>
-        <span flex></span>
-      </div>
-    </md-toolbar>
-    <md-dialog-content style="max-width:800px; max-height:810px;">
-
-      <md-content layout-padding>
-        <form name="pointForm">
-          <md-input-container>
-            <label>Name</label>
-            <input md-maxlength="30" required name="name" ng-model="point.name">
-            <div ng-messages="pointForm.name.$error">
-              <div ng-message="required">This is required.</div>
-            </div>
-          </md-input-container>
-          <md-input-container>
-            <label>Due date</label>
-            <input required name="due_date" type="date" ng-model="point.due_date">
-            <div ng-messages="pointForm.due_date.$error">
-              <div ng-message="required">This is required.</div>
-            </div>
-          </md-input-container>
-        </form>
-      </md-content>
-
-    </md-dialog-content>
-    <div class="md-actions" layout="row">
+<md-dialog aria-label="Point">
+  <form name="pointForm" novalidate>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Point</h2>
       <span flex></span>
-      <md-button ng-click="cancel()">
-        Cancel
-      </md-button>
-      <md-button ng-click="save()" style="margin-right:20px;">
-        Done
-      </md-button>
     </div>
+  </md-toolbar>
+  <md-dialog-content style="max-width:800px; max-height:810px;">
+
+    <md-content layout-padding>
+      <md-input-container>
+        <label>Name</label>
+        <input md-maxlength="30" required name="name" ng-model="point.name">
+        <div ng-messages="pointForm.name.$error">
+          <div ng-message="required">This is required.</div>
+          <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Due date</label>
+        <input required name="due_date" type="date" ng-model="point.due_date">
+        <div ng-messages="pointForm.due_date.$error">
+          <div ng-message="required">This is required.</div>
+          <div ng-message="date">Date is invalid.</div>
+        </div>
+      </md-input-container>
+    </md-content>
+
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="cancel()">
+      Cancel
+    </md-button>
+    <md-button ng-disabled="!pointForm.$valid" ng-click="save()" style="margin-right:20px;">
+      Done
+    </md-button>
+  </div>
   </form>
 </md-dialog>
