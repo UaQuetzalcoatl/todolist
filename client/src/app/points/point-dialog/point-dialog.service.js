@@ -30,7 +30,7 @@
             $mdDialog.hide(point);
           };
         },
-        templateUrl: 'app/points/point-list/point-dialog.html',
+        templateUrl: 'app/points/point-dialog/point-dialog.html',
         locals: {point: pointModel}
       });
     }

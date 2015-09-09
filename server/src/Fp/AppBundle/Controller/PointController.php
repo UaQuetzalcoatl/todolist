@@ -89,10 +89,6 @@ class PointController extends FOSRestController
             $dm->flush();
 
             return new View($point, Codes::HTTP_CREATED);
-            /**
-             * causes error when using Restangular
-             */
-//            return $this->routeRedirectView('get_point', ['id' => $point->getId()]);
         }
 
         return ['form' => $form];
@@ -125,7 +121,6 @@ class PointController extends FOSRestController
             $dm->flush();
 
             return new View($point);
-//            return $this->routeRedirectView('get_point', ['id' => $point->getId()], Codes::HTTP_NO_CONTENT);
         }
 
         return ['form' => $form];

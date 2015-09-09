@@ -6,6 +6,7 @@
     .module('app')
     .constant('malarkey', malarkey)
     .constant('toastr', toastr)
-    .constant('moment', moment);
+    .constant('moment', moment)
+    .constant('apiUrl', 'http://127.0.0.1:8000/app_dev.php/');
 
 })();
