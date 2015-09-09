@@ -3,7 +3,7 @@
 
   angular
     .module('app', [
-      'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ngMaterial',
+      'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ngMaterial', 'ngMessages',
       'app.points'
     ]);
 
