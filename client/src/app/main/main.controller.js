@@ -7,6 +7,7 @@
 
   /** @ngInject */
   function MainController() {
-
+    var vm = this;
+    vm.title = 'test application';
   }
 })();

@@ -13,8 +13,9 @@
   }
 
   /** @ngInject */
-  function restangularConfig(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://127.0.0.1:8000/app_dev.php/');
+  function restangularConfig(RestangularProvider, apiUrl) {
+    //RestangularProvider.setBaseUrl('http://127.0.0.1:8000/app_dev.php/');
+    RestangularProvider.setBaseUrl(apiUrl);
     RestangularProvider.setRequestSuffix('.json');
     /**
      * In order to add form type name to request body
