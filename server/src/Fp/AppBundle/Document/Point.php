@@ -2,11 +2,14 @@
 
 namespace Fp\AppBundle\Document;
 
+use JMS\Serializer\Annotation;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 
 /**
  * @MongoDb\Document
+ * @Annotation\ExclusionPolicy("all")
  *
  * @author alex
  */
@@ -14,16 +17,33 @@ class Point
 {
     /**
      * @MongoDB\Id
+     * @Annotation\Expose
+     * @Annotation\Type("string")
+     *
+     * @var string
      */
     protected $id;
 
     /**
      * @MongoDB\String
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
+     * @Annotation\Expose
+     * @Annotation\Type("string")
+     *
+     * @var string
      */
     protected $name;
 
     /**
      * @MongoDB\Date
+     * @Assert\NotBlank()
+     * @Assert\DateTime()
+     * @Annotation\Expose
+     * @Annotation\Type("DateTime<'Y-m-d'>")
+     * @Annotation\SerializedName("dueDate")
+     *
+     * @var DateTime
      */
     protected $dueDate;
 
@@ -43,6 +63,7 @@ class Point
      */
     public function setId($id)
     {
+        $this->id = $id;
         return $this;
     }
 
@@ -88,5 +109,18 @@ class Point
     public function getDueDate()
     {
         return $this->dueDate;
+    }
+
+    /**
+     * Test virtual property
+     *
+     * @Annotation\VirtualProperty()
+     * @Annotation\SerializedName("greeting")
+     *
+     * @return string
+     */
+    public function testVirtualProperty()
+    {
+        return 'I\'m a serializer';
     }
 }

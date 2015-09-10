@@ -1,5 +1,0 @@
-{%  if (form is defined) %}
-<form action="{{ url('post_points') }}" method="POST" {{ form_enctype(form) }}>
-{{ form_widget(form) }}
-{{ form_end(form) }}
-{% endif %}

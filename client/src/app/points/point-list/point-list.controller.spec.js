@@ -21,7 +21,7 @@
       PointModel = _PointModel_;
       $mdDialog = _$mdDialog_;
       $rootScope = _$rootScope_;
-      $httpBackend.expectGET(/points\.json$/).respond('[{"id": "a", "name": "name1", "due_date": "1983-10-04T00:00:00+0200"}, {"id": "b", "name": "name2", "due_date": "2015-10-04T00:00:00+0200"}]');
+      $httpBackend.expectGET(/points\.json$/).respond('[{"id": "a", "name": "name1", "dueDate": "1983-10-04"}, {"id": "b", "name": "name2", "dueDate": "2015-10-04"}]');
 
       PointModel.getList().then(function (response) {
         resolvedPoints = response;
@@ -47,7 +47,7 @@
     });
 
     it('DueDate should be Date object', function () {
-      expect(vm.points[0].due_date instanceof Date).toBeTruthy();
+      expect(vm.points[0].dueDate instanceof Date).toBeTruthy();
     });
 
     describe('should have CRUD functionality', function () {
@@ -104,7 +104,7 @@
       });
 
       it('should add point to the list', function () {
-        var newItem = '{"id": "c", "name": "name3", "due_date": "1983-10-04T00:00:00+0200"}';
+        var newItem = '{"id": "c", "name": "name3", "dueDate": "1983-10-04"}';
         $httpBackend.expectPOST(/points\.json/).respond(newItem);
         vm.addNew();
         modalInstance.hide(newItem);
@@ -117,7 +117,7 @@
 
       it('should update point data in the list', function () {
         var
-          point = '{"id": "a", "name": "name_edited", "due_date": "1983-10-04T00:00:00+0200"}',
+          point = '{"id": "a", "name": "name_edited", "dueDate": "1983-10-04"}',
           editedPoint = vm.points[0].clone();
         $httpBackend.expectPUT(/points\/a\.json/).respond(point);
         vm.edit(vm.points[0]);
