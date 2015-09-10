@@ -23,6 +23,7 @@ phpunit -c app/
 
 cd client
 gulp test
+gulp protractor
 ```
 
 
