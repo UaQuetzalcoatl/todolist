@@ -13,22 +13,17 @@
   }
 
   /** @ngInject */
-  function restangularConfig(RestangularProvider, apiUrl) {
-    //RestangularProvider.setBaseUrl('http://127.0.0.1:8000/app_dev.php/');
+  function restangularConfig(RestangularProvider, apiUrl, moment, lodash) {
     RestangularProvider.setBaseUrl(apiUrl);
     RestangularProvider.setRequestSuffix('.json');
-    /**
-     * In order to add form type name to request body
-     */
-    RestangularProvider.addRequestInterceptor(function (element, httpMethod, what) {
-      if ('post' === httpMethod || 'put' === httpMethod) {
-        var data = {};
-        data[what] = element;
+    RestangularProvider.setRequestInterceptor(function(element) {
+      return lodash.mapValues(element, function(property) {
+        if (angular.isDate(property)) {
+          return moment(property).format('YYYY-MM-DD');
+        }
 
-        return data;
-      }
-
-      return element;
+        return property;
+      });
     });
   }
 })();

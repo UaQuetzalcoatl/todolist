@@ -3,23 +3,23 @@
 namespace Fp\AppBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
+
 use Symfony\Component\HttpFoundation\Request;
-use Fp\AppBundle\Form\PointType;
-use Fp\AppBundle\Document\Point;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Rest controller for points
+ * Rest controller for points.
  *
  * @author alex
  */
 class PointController extends FOSRestController
 {
     /**
+     * Returms a list of points.
      *
-     * @return array
+     * @return View
      */
     public function getPointsAction()
     {
@@ -27,16 +27,12 @@ class PointController extends FOSRestController
             ->getRepository('FpAppBundle:Point')
             ->findAll();
 
-        $view = $this->view($points)
-            ->setTemplate('FpAppBundle:Point:points.html.twig');
-
-        return $this->handleView($view);
+        return new View($points);
     }
 
     /**
-     * @Annotations\View(templateVar="point")
-     *
      * @param string $id
+     *
      * @return View
      */
     public function getPointAction($id)
@@ -53,25 +49,7 @@ class PointController extends FOSRestController
     }
 
     /**
-     * Display create point form
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function newPointAction()
-    {
-        $form = $this->createForm(new PointType);
-
-        return $this->render('FpAppBundle:Point:newPoint.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
      * Creates a new post from the submitted data.
-     *
-     *
-     * @Annotations\View(
-     *   template = "FpAppBundle:Point:newPoint.html.twig",
-     *   statusCode = Codes::HTTP_BAD_REQUEST
-     * )
      *
      * @param Request $request the request object
      *
@@ -79,59 +57,68 @@ class PointController extends FOSRestController
      */
     public function postPointsAction(Request $request)
     {
-        $point = new Point;
-        $form = $this->createForm(new PointType(), $point);
+        /* @var $serializer \JMS\Serializer\Serializer */
+        $serializer = $this->get('jms_serializer');
+        /* @var $validator \Symfony\Component\Validator\Validator */
+        $validator = $this->get('validator');
+        $point = $serializer->deserialize($request->getContent(), 'Fp\AppBundle\Document\Point', 'json');
+        $errors = $validator->validate($point);
 
-        $form->submit($request);
-        if ($form->isValid()) {
-            $dm = $this->get('doctrine_mongodb')->getManager();
-            $dm->persist($point);
-            $dm->flush();
-
-            return new View($point, Codes::HTTP_CREATED);
+        if ($errors->count()) {
+            return new View($errors, Codes::HTTP_BAD_REQUEST);
         }
 
-        return ['form' => $form];
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm->persist($point);
+        $dm->flush();
+
+        $locationUrl = $this->generateUrl(
+            'get_point',
+            ['id' => $point->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        return new View(
+            $point,
+            Codes::HTTP_CREATED,
+            ['Location' => $locationUrl]
+        );
     }
 
     /**
      * Updates point.
      *
      * @param Request $request
-     * @param string $id
+     * @param string  $id
      *
      * @return array|RouteRedirectView
      */
     public function putPointsAction(Request $request, $id)
     {
-        $point = $this->get('doctrine_mongodb')
-            ->getRepository('FpAppBundle:Point')
-            ->find($id);
+        /* @var $serializer \JMS\Serializer\Serializer */
+        $serializer = $this->get('jms_serializer');
+        /* @var $validator \Symfony\Component\Validator\Validator */
+        $validator = $this->get('validator');
+        /* @var $point \Fp\AppBundle\Document\Point */
+        $point = $serializer->deserialize($request->getContent(), 'Fp\AppBundle\Document\Point', 'json');
+        $errors = $validator->validate($point);
 
-        if (!$point) {
-            throw $this->createNotFoundException('No point found for id '.$id);
+        if ($errors->count()) {
+            return new View($errors, Codes::HTTP_BAD_REQUEST);
         }
 
-        $form = $this->createForm(new PointType(), $point);
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm->persist($point);
+        $dm->flush();
 
-        $form->submit($request);
-        if ($form->isValid()) {
-            $dm = $this->get('doctrine_mongodb')->getManager();
-            $dm->persist($point);
-            $dm->flush();
-
-            return new View($point);
-        }
-
-        return ['form' => $form];
+        return new View($point);
     }
 
     /**
      * Removes a point.
      *
      *
-     * @param Request $request the request object
-     * @param int     $id      the note id
+     * @param string $id the note id
      *
      * @return RouteRedirectView
      */

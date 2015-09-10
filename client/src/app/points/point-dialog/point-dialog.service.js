@@ -18,7 +18,7 @@
     ////////////////
 
     function open(pointModel) {
-      pointModel = pointModel || {name: null, due_date: null};
+      pointModel = pointModel || {name: null, dueDate: null};
 
       return $mdDialog.show({
         controller: function ($scope, $mdDialog, point) {

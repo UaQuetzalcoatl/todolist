@@ -10,7 +10,7 @@
   /* @ngInject */
   function PointModel(Restangular) {
     Restangular.extendModel('points', function(model) {
-      model.due_date = new Date(model.due_date);
+      model.dueDate = new Date(model.dueDate);
 
       return model;
     });
