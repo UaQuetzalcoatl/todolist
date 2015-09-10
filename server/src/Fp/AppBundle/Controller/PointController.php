@@ -65,7 +65,7 @@ class PointController extends FOSRestController
         $errors = $validator->validate($point);
 
         if ($errors->count()) {
-            return new View($errors);
+            return new View($errors, Codes::HTTP_BAD_REQUEST);
         }
 
         $dm = $this->get('doctrine_mongodb')->getManager();
@@ -103,8 +103,8 @@ class PointController extends FOSRestController
         $point = $serializer->deserialize($request->getContent(), 'Fp\AppBundle\Document\Point', 'json');
         $errors = $validator->validate($point);
 
-        if ($errors->count() || $id != $point->getId()) {
-            return new View($errors);
+        if ($errors->count()) {
+            return new View($errors, Codes::HTTP_BAD_REQUEST);
         }
 
         $dm = $this->get('doctrine_mongodb')->getManager();

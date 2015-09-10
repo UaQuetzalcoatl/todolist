@@ -13,11 +13,11 @@
   }
 
   /** @ngInject */
-  function restangularConfig(RestangularProvider, apiUrl) {
+  function restangularConfig(RestangularProvider, apiUrl, moment, lodash) {
     RestangularProvider.setBaseUrl(apiUrl);
     RestangularProvider.setRequestSuffix('.json');
     RestangularProvider.setRequestInterceptor(function(element) {
-      return _.mapValues(element, function(property) {
+      return lodash.mapValues(element, function(property) {
         if (angular.isDate(property)) {
           return moment(property).format('YYYY-MM-DD');
         }

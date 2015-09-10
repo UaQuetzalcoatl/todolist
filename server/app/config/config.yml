@@ -107,18 +107,18 @@ fos_rest:
     body_listener:
         array_normalizer: fos_rest.normalizer.camel_keys
 
-fos_http_cache:
-    cache_control:
-        rules:
-            # the controls section values are used in a call to Response::setCache();
-            -
-                match:
-                    path: ^/notes
-                    methods: [GET, HEAD]
-                headers:
-                    cache_control: { public: true, max_age: 15, s_maxage: 30 }
-                    last_modified: "-1 hour"
-                    vary: [Accept-Encoding, Accept-Language]
+#fos_http_cache:
+#    cache_control:
+#        rules:
+#            # the controls section values are used in a call to Response::setCache();
+#            -
+#                match:
+#                    path: ^/notes
+#                    methods: [GET, HEAD]
+#                headers:
+#                    cache_control: { public: true, max_age: 15, s_maxage: 30 }
+#                    last_modified: "-1 hour"
+#                    vary: [Accept-Encoding, Accept-Language]
 nelmio_cors:
     defaults:
         allow_credentials: false
